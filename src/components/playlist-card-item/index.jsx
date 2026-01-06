@@ -1,4 +1,3 @@
-import * as React from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -9,12 +8,15 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import { FavoriteOutlined, PlayCircle } from "@mui/icons-material";
 import { Box, Button, Stack } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const PlaylistCardItem = ({
   playlistThumbnail,
   playlistTitle,
   channelTitle,
+  playlistId,
 }) => {
+
   return (
     <Card
       sx={{
@@ -46,7 +48,7 @@ const PlaylistCardItem = ({
           <FavoriteOutlined />
         </IconButton> */}
 
-        <Button>
+        <Button to={`/player/${playlistId}`} component={Link}>
           <Stack direction={"row"} spacing={1} alignItems={"center"}>
             <PlayCircle color="primary" />
             <Typography variant="body2" color="primary" fontWeight={600}>
