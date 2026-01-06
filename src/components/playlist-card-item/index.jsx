@@ -1,22 +1,14 @@
 import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import IconButton from "@mui/material/IconButton";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 
-import { FavoriteOutlined, PlayCircle } from "@mui/icons-material";
+import { PlayCircle } from "@mui/icons-material";
 import { Box, Button, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const PlaylistCardItem = ({
-  playlistThumbnail,
-  playlistTitle,
-  channelTitle,
-  playlistId,
-}) => {
-
+const ListCardItem = ({ thumbnail, title, channelTitle, id, isPlaylist }) => {
   return (
     <Card
       sx={{
@@ -27,16 +19,10 @@ const PlaylistCardItem = ({
         margin: 1,
       }}
     >
-      <CardMedia
-        component="img"
-        image={playlistThumbnail.url}
-        alt={playlistTitle}
-      />
+      <CardMedia component="img" image={thumbnail.url} alt={title} />
       <CardContent>
         <Typography variant="h6" sx={{ color: "text.primary" }}>
-          {playlistTitle.length > 65
-            ? playlistTitle.substr(0, 65) + "..."
-            : playlistTitle}
+          {title.length > 65 ? title.substr(0, 65) + "..." : title}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
           {channelTitle}
@@ -48,11 +34,11 @@ const PlaylistCardItem = ({
           <FavoriteOutlined />
         </IconButton> */}
 
-        <Button to={`/player/${playlistId}`} component={Link}>
+        <Button to={`/player/${id}`} component={Link}>
           <Stack direction={"row"} spacing={1} alignItems={"center"}>
             <PlayCircle color="primary" />
             <Typography variant="body2" color="primary" fontWeight={600}>
-              Start Tutorial
+              {isPlaylist ? "Start Playlist" : "Start Tutorial"}
             </Typography>
           </Stack>
         </Button>
@@ -61,4 +47,4 @@ const PlaylistCardItem = ({
   );
 };
 
-export default PlaylistCardItem;
+export default ListCardItem;
