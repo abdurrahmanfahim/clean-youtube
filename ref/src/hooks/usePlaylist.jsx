@@ -14,9 +14,9 @@ const usePlaylist = () => {
   const [state, setState] = useState(INIT_STATE);
 
   useEffect(() => {
-    const savedState = storage.get(STORAGE_KEY);
-    if (savedState) {
-      setState({ ...savedState });
+    const state = storage.get(STORAGE_KEY);
+    if (state) {
+      setState({ ...state });
     }
   }, []);
 

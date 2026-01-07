@@ -1,5 +1,3 @@
-import { Container, Typography } from "@mui/material";
-
 const NotFound = () => {
   return (
     <Container maxWidth={"lg"} sx={{ my: 16 }}>

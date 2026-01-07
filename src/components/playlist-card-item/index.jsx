@@ -5,60 +5,97 @@ import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-
-import { FavoriteOutlined, PlayCircle } from "@mui/icons-material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { PlayCircle } from "@mui/icons-material";
 import { Box, Button, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
+import { usePlaylistContext } from "../../hooks/usePlaylistContext";
+import { useTheme } from "../../hooks/useTheme";
 
-const PlaylistCardItem = ({
-  playlistThumbnail,
-  playlistTitle,
+const ListCardItem = ({
+  thumbnail,
+  title,
   channelTitle,
   playlistId,
+  videoId,
+  isPlaylist,
 }) => {
-
+  const { addToFavorites, removeFromFavorites, favorites } =
+    usePlaylistContext();
+  const { darkMode } = useTheme();
   return (
     <Card
       sx={{
-        maxWidth: 345,
+        maxWidth: 300,
         height: "100%",
         display: "flex",
         flexDirection: "column",
         margin: 1,
+        "&:hover": {
+          backgroundColor: darkMode ? "#1a1a1aff" : "#f5f5f5",
+        },
       }}
     >
-      <CardMedia
-        component="img"
-        image={playlistThumbnail.url}
-        alt={playlistTitle}
-      />
+      <CardMedia component="img" image={thumbnail.url} alt={title} />
       <CardContent>
-        <Typography variant="h6" sx={{ color: "text.primary" }}>
-          {playlistTitle.length > 65
-            ? playlistTitle.substr(0, 65) + "..."
-            : playlistTitle}
+        <Typography
+          variant="h6"
+          sx={{
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            color: "text.primary",
+          }}
+        >
+          {title}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
           {channelTitle}
         </Typography>
       </CardContent>
       <Box sx={{ flexGrow: 1 }}></Box>
-      <CardActions disableSpacing>
-        {/* <IconButton aria-label="add to favorites">
-          <FavoriteOutlined />
-        </IconButton> */}
-
-        <Button to={`/player/${playlistId}`} component={Link}>
+      <CardActions
+        sx={{ display: "flex", justifyContent: "space-between" }}
+        disableSpacing
+      >
+        <Button
+          component={Link}
+          to={
+            isPlaylist
+              ? `/playlist/${playlistId}`
+              : `/player/${playlistId}/${videoId}`
+          }
+        >
           <Stack direction={"row"} spacing={1} alignItems={"center"}>
             <PlayCircle color="primary" />
             <Typography variant="body2" color="primary" fontWeight={600}>
-              Start Tutorial
+              {isPlaylist ? "Start Playlist" : "Start Tutorial"}
             </Typography>
           </Stack>
         </Button>
+
+        {isPlaylist && (
+          <IconButton aria-label="add to favorites">
+            {favorites.some((fav) => fav?.playlistId === playlistId) ? (
+              <FavoriteIcon
+                onClick={() => removeFromFavorites(playlistId)}
+                color="error"
+              />
+            ) : (
+              <FavoriteBorderIcon
+                onClick={() => {
+                  addToFavorites(playlistId);
+                  console.log(playlistId);
+                }}
+              />
+            )}
+          </IconButton>
+        )}
       </CardActions>
     </Card>
   );
 };
 
-export default PlaylistCardItem;
+export default ListCardItem;
