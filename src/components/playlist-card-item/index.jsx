@@ -5,6 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import IconButton from '@mui/material/IconButton';
 import { PlayCircle } from "@mui/icons-material";
 import { Box, Button, Stack } from "@mui/material";
 import { Link } from "react-router-dom";

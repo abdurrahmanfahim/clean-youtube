@@ -1,15 +1,17 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/navbar";
-import usePlaylist from "./hooks/usePlaylist";
 import PlayerPage from "./pages/player-page";
 import NotFound from "./pages/not-found";
 import HomePage from "./pages/home-page";
-
+import PlaylistItemPage from "./pages/playlist-items-page";
+import FavoritesPage from "./pages/favorites-page";
+import { CustomThemeProvider } from './contexts/ThemeContext';
+import { PlaylistProvider } from './contexts/PlaylistContext';
+import { usePlaylistContext } from './hooks/usePlaylistContext';
 
 function AppContent() {
-  const { playlists, error, getPlaylistById } = usePlaylist();
-
+  const { playlists, getPlaylistById } = usePlaylistContext();
   const playlistArray = Object.values(playlists);
 
   return (
@@ -28,13 +30,13 @@ function AppContent() {
         />
         <Route
           path="/favorites"
-          element={<FavoritesPage playlists={playlists} />}
+          element={<FavoritesPage />}
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
-};
+}
 
 const App = () => (
   <CustomThemeProvider>
