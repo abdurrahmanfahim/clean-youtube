@@ -1,5 +1,6 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useRef } from "react";
 import Navbar from "./components/navbar";
 import PlayerPage from "./pages/player-page";
 import NotFound from "./pages/not-found";
@@ -13,13 +14,18 @@ import { usePlaylistContext } from './hooks/usePlaylistContext';
 function AppContent() {
   const { playlists, getPlaylistById } = usePlaylistContext();
   const playlistArray = Object.values(playlists);
+  const navbarRef = useRef();
+
+  const handleAddPlaylist = () => {
+    navbarRef.current?.openModal();
+  };
 
   return (
     <BrowserRouter>
       <CssBaseline />
-      <Navbar getPlaylistById={getPlaylistById} />
+      <Navbar ref={navbarRef} getPlaylistById={getPlaylistById} />
       <Routes>
-        <Route path="/" element={<HomePage playlistArray={playlistArray} />} />
+        <Route path="/" element={<HomePage playlistArray={playlistArray} onAddPlaylist={handleAddPlaylist} />} />
         <Route
           path="/playlist/:playlistId"
           element={<PlaylistItemPage playlists={playlists} />}

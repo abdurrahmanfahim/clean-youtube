@@ -4,7 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Button, Container, Link, Stack, IconButton } from "@mui/material";
 import { Brightness4, Brightness7 } from "@mui/icons-material";
-import { useState } from "react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 import PlaylistForm from "../playlist-form";
 import { Link as RouterLink } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
@@ -12,13 +12,17 @@ import processURL from "../../hooks/useURL";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import HomeIcon from "@mui/icons-material/Home";
 
-const Navbar = ({ getPlaylistById }) => {
+const Navbar = forwardRef(({ getPlaylistById }, ref) => {
   const [open, setOpen] = useState(false);
   const { darkMode, toggleDarkMode } = useTheme();
 
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  useImperativeHandle(ref, () => ({
+    openModal: handleClickOpen
+  }));
 
   const handleClose = () => {
     setOpen(false);
@@ -49,26 +53,19 @@ const Navbar = ({ getPlaylistById }) => {
                 component={RouterLink}
                 sx={{ textDecoration: "none", color: "text.primary" }}
               >
-                <Typography variant="h4">Clean Youtube</Typography>
+                <Typography variant="h4" fontWeight={500}>CleanYoutube</Typography>
               </Link>
-              <Link
-                href="https://github.com/abdurrahmanfahim"
-                target="_blank"
-                sx={{ textDecoration: "none", color: "text.primary" }}
-              >
-                <Typography
-                  sx={{
-                    color: darkMode ? "white" : "black",
-                    "&:hover": {
-                      color: darkMode ? "cyan" : "blue",
-                      textDecoration: 'underline'
-                    },
-                  }}
-                  variant="body1"
+
+              <Typography variant="body1">
+                by{" "}
+                <Link
+                  href="https://github.com/abdurrahmanfahim"
+                  target="_blank"
+                  sx={{ textDecoration: "none", color: "text.primary" }}
                 >
-                  by AR Fahim
-                </Typography>
-              </Link>
+                  <b>AR Fahim</b>
+                </Link>
+              </Typography>
             </Stack>
             <Stack sx={{ flexGrow: 1 }}></Stack>
 
@@ -106,6 +103,6 @@ const Navbar = ({ getPlaylistById }) => {
       </AppBar>
     </Box>
   );
-};
+});
 
 export default Navbar;
