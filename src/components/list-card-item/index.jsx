@@ -35,9 +35,6 @@ const ListCardItem = ({
         position: "relative",
         "&:hover": {
           backgroundColor: darkMode ? "#1a1a1aff" : "#f5f5f5",
-          "& .delete-btn": {
-            display: "block",
-          },
         },
       }}
     >
@@ -84,9 +81,7 @@ const ListCardItem = ({
         <Stack direction={"row"}>
           {isPlaylist && (
             <IconButton
-              className="delete-btn"
               sx={{
-                display: "none",
                 height: 40,
                 "&:hover": {
                   "& .delete-icon": {
