@@ -1,17 +1,15 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/navbar";
+import usePlaylist from "./hooks/usePlaylist";
 import PlayerPage from "./pages/player-page";
 import NotFound from "./pages/not-found";
 import HomePage from "./pages/home-page";
-import PlaylistItemPage from "./pages/playlist-items-page";
-import { PlaylistProvider } from "./contexts/PlaylistContext";
-import { usePlaylistContext } from "./hooks/usePlaylistContext";
-import { CustomThemeProvider } from "./contexts/ThemeContext";
-import FavoritesPage from "./pages/favorites-page";
 
-const AppContent = () => {
-  const { playlists, getPlaylistById } = usePlaylistContext();
+
+function AppContent() {
+  const { playlists, error, getPlaylistById } = usePlaylist();
+
   const playlistArray = Object.values(playlists);
 
   return (
