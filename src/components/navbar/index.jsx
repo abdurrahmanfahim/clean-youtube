@@ -2,8 +2,8 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Button, Container, Link, Stack, IconButton } from "@mui/material";
-import { Brightness4, Brightness7 } from "@mui/icons-material";
+import { Button, Container, Link, Stack, IconButton, useMediaQuery, useTheme as useMuiTheme } from "@mui/material";
+import { Brightness4, Brightness7, Add } from "@mui/icons-material";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import PlaylistForm from "../playlist-form";
 import { Link as RouterLink } from "react-router-dom";
@@ -15,6 +15,8 @@ import HomeIcon from "@mui/icons-material/Home";
 const Navbar = forwardRef(({ getPlaylistById }, ref) => {
   const [open, setOpen] = useState(false);
   const { darkMode, toggleDarkMode } = useTheme();
+  const theme = useMuiTheme();
+  const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -45,7 +47,7 @@ const Navbar = forwardRef(({ getPlaylistById }, ref) => {
           py: 1,
         }}
       >
-        <Container maxWidth={"lg"}>
+        <Container maxWidth={"md"}>
           <Toolbar>
             <Stack>
               <Link
@@ -53,10 +55,19 @@ const Navbar = forwardRef(({ getPlaylistById }, ref) => {
                 component={RouterLink}
                 sx={{ textDecoration: "none", color: "text.primary" }}
               >
-                <Typography variant="h4" fontWeight={500}>CleanYoutube</Typography>
+                <Typography 
+                  variant="h4" 
+                  fontWeight={500} 
+                  sx={{ 
+                    fontSize: { xs: '1.5rem', sm: '2.125rem', md: '2.125rem' },
+                    lineHeight: { xs: 0.8, sm: 0.8, md: 0.8 } 
+                  }}
+                >
+                  {isMdUp ? 'CleanYoutube' : <>Clean<br />Youtube</>}
+                </Typography>
               </Link>
 
-              <Typography variant="body1">
+              <Typography variant="body1" sx={{ display: { xs: "none", md: "block" } }}>
                 by{" "}
                 <Link
                   href="https://github.com/abdurrahmanfahim"
@@ -90,9 +101,27 @@ const Navbar = forwardRef(({ getPlaylistById }, ref) => {
             <IconButton onClick={toggleDarkMode} color="inherit" sx={{ mr: 1 }}>
               {darkMode ? <Brightness7 /> : <Brightness4 />}
             </IconButton>
-            <Button variant="contained" onClick={handleClickOpen}>
+            <Button 
+              variant="contained" 
+              onClick={handleClickOpen}
+              sx={{ 
+                display: { xs: "none", sm: "flex" }
+              }}
+            >
               Add Playlist
             </Button>
+            <IconButton 
+              variant="contained" 
+              onClick={handleClickOpen}
+              sx={{ 
+                display: { xs: "flex", sm: "none" },
+                bgcolor: "primary.main",
+                color: "primary.contrastText",
+                "&:hover": { bgcolor: "primary.dark" }
+              }}
+            >
+              <Add />
+            </IconButton>
             <PlaylistForm
               open={open}
               handleClose={handleClose}
