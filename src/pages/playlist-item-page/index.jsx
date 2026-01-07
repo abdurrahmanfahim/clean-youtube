@@ -1,5 +1,5 @@
 import { Container, Grid } from "@mui/material";
-import ListCardItem from "../../components/playlist-card-item";
+import ListCardItem from "../../components/list-card-item";
 
 const PlaylistItemPage = ({ playlistArray }) => {
   return (

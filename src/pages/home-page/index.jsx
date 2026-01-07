@@ -1,5 +1,5 @@
 import { Container, Grid } from "@mui/material";
-import ListCardItem from "../../components/playlist-card-item";
+import ListCardItem from "../../components/list-card-item";
 
 const HomePage = ({ playlistArray }) => {
   return (
@@ -18,10 +18,9 @@ const HomePage = ({ playlistArray }) => {
             </Grid>
           ))}
         </Grid>
-          )}
+      )}
     </Container>
   );
 };
 
-export default HomePage
-
+export default HomePage;

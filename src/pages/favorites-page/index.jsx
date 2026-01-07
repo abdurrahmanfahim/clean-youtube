@@ -1,13 +1,12 @@
 import { Container, Grid } from "@mui/material";
-import ListCardItem from "../../components/playlist-card-item";
+import ListCardItem from "../../components/list-card-item";
 import { usePlaylistContext } from "../../hooks/usePlaylistContext";
 
 const FavoritesPage = () => {
-
   const { playlists, favorites } = usePlaylistContext();
-  console.log(playlists)
+  console.log(playlists);
   const playlistArray = Object.values(favorites);
-  console.log(playlistArray)
+  console.log(playlistArray);
 
   return (
     <Container maxWidth={"lg"} sx={{ my: 16 }}>
@@ -25,10 +24,9 @@ const FavoritesPage = () => {
             </Grid>
           ))}
         </Grid>
-          )}
+      )}
     </Container>
   );
 };
 
-export default FavoritesPage
-
+export default FavoritesPage;

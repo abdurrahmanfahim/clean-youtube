@@ -5,23 +5,27 @@ A modern, clean YouTube playlist viewer built with React and Material-UI. Browse
 ## ✨ Features
 
 ### 🎵 Playlist Management
+
 - **Add Playlists**: Import YouTube playlists using playlist ID or full YouTube URL
 - **Smart URL Processing**: Automatically extracts playlist ID from YouTube URLs
 - **Persistent Storage**: All playlists saved locally using browser storage
 - **Recent Playlists**: Keep track of recently viewed playlists (last 10)
 
 ### ❤️ Favorites System
+
 - **Add to Favorites**: Mark playlists as favorites for quick access
 - **Dedicated Favorites Page**: View all your favorite playlists in one place
 - **One-Click Management**: Easy add/remove favorites with heart icon
 
 ### 🎥 Video Player
+
 - **Embedded YouTube Player**: Watch videos directly in the app
 - **Clean Interface**: Distraction-free viewing experience
 - **Video Details**: Display video title, description, and publish date
 - **Seamless Navigation**: Easy navigation between playlist videos
 
 ### 🎨 User Experience
+
 - **Dark/Light Theme**: Toggle between dark and light modes
 - **Responsive Design**: Works perfectly on desktop, tablet, and mobile
 - **Material-UI Components**: Modern, accessible interface
@@ -29,6 +33,7 @@ A modern, clean YouTube playlist viewer built with React and Material-UI. Browse
 - **Smooth Animations**: Hover effects and transitions
 
 ### 🔧 Technical Features
+
 - **Context API**: Efficient state management across components
 - **React Router**: Client-side routing for smooth navigation
 - **Local Storage**: Persistent data without external database
@@ -38,18 +43,21 @@ A modern, clean YouTube playlist viewer built with React and Material-UI. Browse
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js (v16 or higher)
 - YouTube Data API v3 key
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd clean-youtube
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    # or
@@ -57,16 +65,19 @@ A modern, clean YouTube playlist viewer built with React and Material-UI. Browse
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp env.example .env
    ```
-   
+
    Edit `.env` and add your YouTube API key:
+
    ```
    VITE_YOUTUBE_API_KEY=your_youtube_api_key_here
    ```
 
 4. **Start the development server**
+
    ```bash
    npm run dev
    # or
@@ -83,6 +94,40 @@ A modern, clean YouTube playlist viewer built with React and Material-UI. Browse
 3. Enable YouTube Data API v3
 4. Create credentials (API Key)
 5. Copy the API key to your `.env` file
+
+## 🌐 Deployment
+
+### Netlify Deployment
+
+1. **Build the project**
+
+   ```bash
+   npm run build
+   ```
+
+2. **Deploy to Netlify**
+
+   - Connect your GitHub repository to Netlify
+   - Set build command: `npm run build`
+   - Set publish directory: `dist`
+
+3. **Add Environment Variables**
+   - Go to Site settings → Environment variables
+   - Add variable: `VITE_YOUTUBE_API_KEY` = `your_api_key`
+   - Redeploy the site
+
+### Alternative: netlify.toml
+
+Create `netlify.toml` in project root:
+
+```toml
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  VITE_YOUTUBE_API_KEY = "your_youtube_api_key_here"
+```
 
 ## 📖 User Guide
 
@@ -136,7 +181,7 @@ src/
 ├── api/                 # YouTube API integration
 ├── components/          # Reusable UI components
 │   ├── navbar/         # Navigation bar
-│   ├── playlist-card-item/ # Playlist/video cards
+│   ├── list-card-item/ # Playlist/video cards
 │   └── playlist-form/  # Add playlist dialog
 ├── contexts/           # React Context providers
 │   ├── PlaylistContext.jsx # Playlist state management
@@ -163,8 +208,9 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 👨‍💻 Author
 
 **AR Fahim**
+
 - GitHub: [@abdurrahmanfahim](https://github.com/abdurrahmanfahim)
 
 ---
 
-*Built with ❤️ using React and Material-UI*
+_Built with ❤️ using React and Material-UI_

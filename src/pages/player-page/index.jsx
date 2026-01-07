@@ -1,13 +1,5 @@
-import {
-  Box,
-  Card,
-  CardMedia,
-  Container,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Box, Card, CardMedia, Container, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
-import ListCardItem from "../../components/playlist-card-item";
 
 const PlayerPage = ({ playlists }) => {
   const { videoId, playlistId } = useParams();
@@ -30,7 +22,7 @@ const PlayerPage = ({ playlists }) => {
             paddingBottom: "56.25%",
             height: 0,
             overflow: "hidden",
-            marginBottom: '24px'
+            marginBottom: "24px",
           }}
         >
           <CardMedia

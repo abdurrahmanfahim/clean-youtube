@@ -1,11 +1,11 @@
+import { Container, Grid } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PlaylistCardItem from "./components/list-card-item";
 import Navbar from "./components/navbar";
 import usePlaylist from "./hooks/usePlaylist";
-import PlaylistCardItem from "./components/playlist-card-item";
-import { Container, Grid, Typography } from "@mui/material";
-import PlayerPage from "./pages/player-page";
 import NotFound from "./pages/not-found";
+import PlayerPage from "./pages/player-page";
 
 const HomePage = ({ playlistArray }) => {
   return (

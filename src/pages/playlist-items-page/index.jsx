@@ -1,7 +1,6 @@
-import React from "react";
+import { Container, Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { CardMedia, Container, Grid, Typography } from "@mui/material";
-import ListCardItem from "../../components/playlist-card-item";
+import ListCardItem from "../../components/list-card-item";
 
 const PlaylistItemPage = ({ playlists }) => {
   const { playlistId } = useParams();

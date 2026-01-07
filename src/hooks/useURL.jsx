@@ -7,9 +7,7 @@ const useURL = (url) => {
 
   if (url && url.includes("list=")) {
     const listParam = url.split("list=")[1];
-    console.log(listParam)
     const playlistId = listParam.split("&")[0];
-    console.log(playlistId)
     return playlistId;
   }
 
