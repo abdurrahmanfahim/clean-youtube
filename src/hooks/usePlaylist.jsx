@@ -69,6 +69,20 @@ const usePlaylist = () => {
     }));
   };
 
+  const removePlaylist = (playlistsId) => {
+    setState((prev) => {
+      const newPlaylists = { ...prev.playlists };
+      delete newPlaylists[playlistsId];
+      
+      return {
+        ...prev,
+        playlists: newPlaylists,
+        favorites: prev.favorites.filter((id) => id !== playlistsId),
+        recentPlaylists: prev.recentPlaylists.filter((id) => id !== playlistsId),
+      };
+    });
+  };
+
   const addToRecent = (playlistsId) => {
     setState((prev) => {
       const filtered = prev.recentPlaylists.filter((id) => id !== playlistsId);
@@ -93,6 +107,7 @@ const usePlaylist = () => {
     addToRecent,
     addToFavorites,
     removeFromFavorites,
+    removePlaylist,
   };
 };
 

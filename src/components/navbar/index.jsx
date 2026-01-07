@@ -10,7 +10,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
 import processURL from "../../hooks/useURL";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import HomeIcon from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
 
 const Navbar = ({ getPlaylistById }) => {
   const [open, setOpen] = useState(false);
@@ -43,7 +43,7 @@ const Navbar = ({ getPlaylistById }) => {
       >
         <Container maxWidth={"lg"}>
           <Toolbar>
-            <Stack sx={{ flexGrow: 1 }}>
+            <Stack>
               <Link
                 to={"/"}
                 component={RouterLink}
@@ -56,15 +56,37 @@ const Navbar = ({ getPlaylistById }) => {
                 target="_blank"
                 sx={{ textDecoration: "none", color: "text.primary" }}
               >
-                <Typography variant="body1">by AR Fahim</Typography>
+                <Typography
+                  sx={{
+                    color: darkMode ? "white" : "black",
+                    "&:hover": {
+                      color: darkMode ? "cyan" : "blue",
+                      textDecoration: 'underline'
+                    },
+                  }}
+                  variant="body1"
+                >
+                  by AR Fahim
+                </Typography>
               </Link>
             </Stack>
+            <Stack sx={{ flexGrow: 1 }}></Stack>
 
-            <IconButton to={`/`} component={RouterLink} color="inherit" sx={{ mr: 1 }}>
+            <IconButton
+              to={`/`}
+              component={RouterLink}
+              color="inherit"
+              sx={{ mr: 1 }}
+            >
               <HomeIcon />
             </IconButton>
 
-            <IconButton to={`/favorites`} component={RouterLink} color="inherit" sx={{ mr: 1 }}>
+            <IconButton
+              to={`/favorites`}
+              component={RouterLink}
+              color="inherit"
+              sx={{ mr: 1 }}
+            >
               <FavoriteIcon />
             </IconButton>
 

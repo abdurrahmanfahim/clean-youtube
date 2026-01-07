@@ -5,12 +5,13 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import IconButton from '@mui/material/IconButton';
+import IconButton from "@mui/material/IconButton";
 import { PlayCircle } from "@mui/icons-material";
 import { Box, Button, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 import { usePlaylistContext } from "../../hooks/usePlaylistContext";
 import { useTheme } from "../../hooks/useTheme";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const ListCardItem = ({
   thumbnail,
@@ -20,7 +21,7 @@ const ListCardItem = ({
   videoId,
   isPlaylist,
 }) => {
-  const { addToFavorites, removeFromFavorites, favorites } =
+  const { addToFavorites, removeFromFavorites, favorites, removePlaylist } =
     usePlaylistContext();
   const { darkMode } = useTheme();
   return (
@@ -31,8 +32,12 @@ const ListCardItem = ({
         display: "flex",
         flexDirection: "column",
         margin: 1,
+        position: "relative",
         "&:hover": {
           backgroundColor: darkMode ? "#1a1a1aff" : "#f5f5f5",
+          "& .delete-btn": {
+            display: "block",
+          },
         },
       }}
     >
@@ -76,23 +81,47 @@ const ListCardItem = ({
           </Stack>
         </Button>
 
-        {isPlaylist && (
-          <IconButton aria-label="add to favorites">
-            {favorites.some((fav) => fav?.playlistId === playlistId) ? (
-              <FavoriteIcon
-                onClick={() => removeFromFavorites(playlistId)}
-                color="error"
+        <Stack direction={"row"}>
+          {isPlaylist && (
+            <IconButton
+              className="delete-btn"
+              sx={{
+                display: "none",
+                height: 40,
+                "&:hover": {
+                  "& .delete-icon": {
+                    color: "red",
+                  },
+                },
+              }}
+              aria-label="remove playlist"
+            >
+              <DeleteIcon
+                className="delete-icon"
+                onClick={() => removePlaylist(playlistId)}
+                color="primary"
               />
-            ) : (
-              <FavoriteBorderIcon
-                onClick={() => {
-                  addToFavorites(playlistId);
-                  console.log(playlistId);
-                }}
-              />
-            )}
-          </IconButton>
-        )}
+            </IconButton>
+          )}
+
+          {isPlaylist && (
+            <IconButton aria-label="add to favorites">
+              {favorites.some((fav) => fav?.playlistId === playlistId) ? (
+                <FavoriteIcon
+                  onClick={() => removeFromFavorites(playlistId)}
+                  color="error"
+                />
+              ) : (
+                <FavoriteBorderIcon
+                  onClick={() => {
+                    addToFavorites(playlistId);
+                    console.log(playlistId);
+                  }}
+                />
+              )}
+            </IconButton>
+          )}
+        </Stack>
       </CardActions>
     </Card>
   );
