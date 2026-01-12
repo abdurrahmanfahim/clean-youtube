@@ -11,6 +11,7 @@ const PlaylistForm = ({ open, handleClose, getPlayListId }) => {
   const [state, setState] = useState("");
 
   const handleSubmit = () => {
+    // TODO: handle url later
     if (!state) {
       alert('Invalid State')
     } else {
@@ -18,6 +19,7 @@ const PlaylistForm = ({ open, handleClose, getPlayListId }) => {
       setState('')
       handleClose()
     }
+
   };
 
   return (

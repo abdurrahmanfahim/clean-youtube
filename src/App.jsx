@@ -1,55 +1,75 @@
 import CssBaseline from "@mui/material/CssBaseline";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useRef } from "react";
+import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 import Navbar from "./components/navbar";
-import PlayerPage from "./pages/player-page";
-import NotFound from "./pages/not-found";
-import HomePage from "./pages/home-page";
-import PlaylistItemPage from "./pages/playlist-items-page";
-import FavoritesPage from "./pages/favorites-page";
-import { CustomThemeProvider } from './contexts/ThemeContext';
-import { PlaylistProvider } from './contexts/PlaylistContext';
-import { usePlaylistContext } from './hooks/usePlaylistContext';
+import usePlaylist from "./hooks/usePlaylist";
+import PlaylistCardItem from "./components/playlist-card-item";
+import { Container, Grid, Typography } from "@mui/material";
 
-function AppContent() {
-  const { playlists, getPlaylistById } = usePlaylistContext();
+const HomePage = ({ playlistArray }) => {
+  return (
+    <Container maxWidth={"lg"} sx={{ my: 16 }}>
+      {playlistArray.length > 0 && (
+        <Grid container alignItems={"stretch"}>
+          {playlistArray.map((item) => (
+            <Grid item xs={12} md={6} lg={4} mb={2} key={item.playlistId}>
+              <PlaylistCardItem
+                playlistThumbnail={item.playlistThumbnail}
+                playlistTitle={item.playlistTitle}
+                channelTitle={item.channelTitle}
+                playlistId={item.playlistId}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      )}
+    </Container>
+  );
+};
+
+const PlayerPage = ({ playlists }) => {
+  const { playlistId } = useParams();
+  const current = playlists[playlistId];
+  console.log("Current Course -->", current);
+
+  if (!current) {
+    return;
+  }
+
+  return (
+    <Container maxWidth={"lg"} sx={{ my: 16 }}>
+      <Typography variant="h2">{current.playlistTitle}</Typography>
+      <Typography variant="body1">{current.playlistDescription}</Typography>
+    </Container>
+  );
+};
+
+const NotFound = () => {
+  return (
+    <Container maxWidth={"lg"} sx={{ my: 16 }}>
+      <Typography variant="h2">404 | Page not found</Typography>
+    </Container>
+  );
+};
+
+function App() {
+  const { playlists, error, getPlaylistById } = usePlaylist();
+
   const playlistArray = Object.values(playlists);
-  const navbarRef = useRef();
-
-  const handleAddPlaylist = () => {
-    navbarRef.current?.openModal();
-  };
 
   return (
     <BrowserRouter>
       <CssBaseline />
-      <Navbar ref={navbarRef} getPlaylistById={getPlaylistById} />
+      <Navbar getPlaylistById={getPlaylistById} />
       <Routes>
-        <Route path="/" element={<HomePage playlistArray={playlistArray} onAddPlaylist={handleAddPlaylist} />} />
+        <Route path="/" element={<HomePage playlistArray={playlistArray} />} />
         <Route
-          path="/playlist/:playlistId"
-          element={<PlaylistItemPage playlists={playlists} />}
-        />
-        <Route
-          path="/player/:playlistId/:videoId"
+          path="/player/:playlistId"
           element={<PlayerPage playlists={playlists} />}
-        />
-        <Route
-          path="/favorites"
-          element={<FavoritesPage />}
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
 }
-
-const App = () => (
-  <CustomThemeProvider>
-    <PlaylistProvider>
-      <AppContent />
-    </PlaylistProvider>
-  </CustomThemeProvider>
-);
 
 export default App;
