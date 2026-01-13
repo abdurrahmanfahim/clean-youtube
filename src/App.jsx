@@ -1,11 +1,21 @@
 import CssBaseline from "@mui/material/CssBaseline";
+import {useStoreActions} from 'easy-peasy'
 import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 import Navbar from "./components/navbar";
 import usePlaylist from "./hooks/usePlaylist";
 import PlaylistCardItem from "./components/playlist-card-item";
 import { Container, Grid, Typography } from "@mui/material";
+import { useEffect } from "react";
+
+const playlistID = 'PL_XxuZqN0xVD0op-QDEgyXFA4fRPChvkl'
 
 const HomePage = ({ playlistArray }) => {
+  const playlist = useStoreActions(actions => actions.playlist)
+
+  useEffect(() => {
+    playlist.getPlaylist(playlistID)
+  }, [])
+
   return (
     <Container maxWidth={"lg"} sx={{ my: 16 }}>
       {playlistArray.length > 0 && (
@@ -52,7 +62,7 @@ const NotFound = () => {
 };
 
 function App() {
-  const { playlists, error, getPlaylistById } = usePlaylist();
+  const { playlists, getPlaylistById } = usePlaylist();
 
   const playlistArray = Object.values(playlists);
 

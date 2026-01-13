@@ -48,8 +48,9 @@ const getPlaylist = async (playlistId) => {
     playlistDescription,
     playlistThumbnail: thumbnails.medium,
     channelId,
-    channelTitle,playlistItems
-  }
+    channelTitle,
+    playlistItems,
+  };
 };
 
 export default getPlaylist;
