@@ -2,7 +2,15 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Button, Container, Link, Stack, IconButton, useMediaQuery, useTheme as useMuiTheme } from "@mui/material";
+import {
+  Button,
+  Container,
+  Link,
+  Stack,
+  IconButton,
+  useMediaQuery,
+  useTheme as useMuiTheme,
+} from "@mui/material";
 import { Brightness4, Brightness7, Add } from "@mui/icons-material";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import PlaylistForm from "../playlist-form";
@@ -11,19 +19,24 @@ import { useTheme } from "../../hooks/useTheme";
 import processURL from "../../hooks/useURL";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import HomeIcon from "@mui/icons-material/Home";
+import { useStoreActions } from "easy-peasy";
 
-const Navbar = forwardRef(({ getPlaylistById }, ref) => {
+const Navbar = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
   const { darkMode, toggleDarkMode } = useTheme();
   const theme = useMuiTheme();
-  const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+
+  const { getPlaylist, addPlaylist } = useStoreActions(
+    (actions) => actions.playlists
+  );
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   useImperativeHandle(ref, () => ({
-    openModal: handleClickOpen
+    openModal: handleClickOpen,
   }));
 
   const handleClose = () => {
@@ -32,7 +45,8 @@ const Navbar = forwardRef(({ getPlaylistById }, ref) => {
 
   const getPlayListId = (playlistId) => {
     const extractedId = processURL(playlistId);
-    getPlaylistById(extractedId);
+    const data = getPlaylist(extractedId);
+    addPlaylist(data);
   };
 
   return (
@@ -55,19 +69,30 @@ const Navbar = forwardRef(({ getPlaylistById }, ref) => {
                 component={RouterLink}
                 sx={{ textDecoration: "none", color: "text.primary" }}
               >
-                <Typography 
-                  variant="h4" 
-                  fontWeight={500} 
-                  sx={{ 
-                    fontSize: { xs: '1.5rem', sm: '2.125rem', md: '2.125rem' },
-                    lineHeight: { xs: 0.8, sm: 0.8, md: 0.8 } 
+                <Typography
+                  variant="h4"
+                  fontWeight={500}
+                  sx={{
+                    fontSize: { xs: "1.5rem", sm: "2.125rem", md: "2.125rem" },
+                    lineHeight: { xs: 0.8, sm: 0.8, md: 0.8 },
                   }}
                 >
-                  {isMdUp ? 'CleanYoutube' : <>Clean<br />Youtube</>}
+                  {isMdUp ? (
+                    "CleanYoutube"
+                  ) : (
+                    <>
+                      Clean
+                      <br />
+                      Youtube
+                    </>
+                  )}
                 </Typography>
               </Link>
 
-              <Typography variant="body1" sx={{ display: { xs: "none", md: "block" } }}>
+              <Typography
+                variant="body1"
+                sx={{ display: { xs: "none", md: "block" } }}
+              >
                 by{" "}
                 <Link
                   href="https://github.com/abdurrahmanfahim"
@@ -101,23 +126,23 @@ const Navbar = forwardRef(({ getPlaylistById }, ref) => {
             <IconButton onClick={toggleDarkMode} color="inherit" sx={{ mr: 1 }}>
               {darkMode ? <Brightness7 /> : <Brightness4 />}
             </IconButton>
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               onClick={handleClickOpen}
-              sx={{ 
-                display: { xs: "none", sm: "flex" }
+              sx={{
+                display: { xs: "none", sm: "flex" },
               }}
             >
               Add Playlist
             </Button>
-            <IconButton 
-              variant="contained" 
+            <IconButton
+              variant="contained"
               onClick={handleClickOpen}
-              sx={{ 
+              sx={{
                 display: { xs: "flex", sm: "none" },
                 bgcolor: "primary.main",
                 color: "primary.contrastText",
-                "&:hover": { bgcolor: "primary.dark" }
+                "&:hover": { bgcolor: "primary.dark" },
               }}
             >
               <Add />

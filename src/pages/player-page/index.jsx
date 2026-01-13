@@ -1,15 +1,35 @@
 import { Box, Card, CardMedia, Container, Typography } from "@mui/material";
+import { useStoreState } from "easy-peasy";
 import { useParams } from "react-router-dom";
 
-const PlayerPage = ({ playlists }) => {
+const PlayerPage = () => {
   const { videoId, playlistId } = useParams();
-  console.log(videoId, playlists);
 
-  const current = playlists[playlistId].playlistItems.filter(
+  const { data, error, isLoading } = useStoreState((state) => state.playlists);
+
+  const playlist = data[playlistId];
+  
+  if (!playlist || !playlist.playlistItems) {
+    return <h1>Playlist not found</h1>;
+  }
+
+  const current = playlist.playlistItems.filter(
     (item) => item.contentDetails.videoId === videoId
   );
 
-  const { contentDetails, description, thumbnails, title } = current[0];
+  if (isLoading) {
+    return <h1>Loading</h1>;
+  }
+
+  if (isLoading) {
+    return <h1>{error}</h1>;
+  }
+
+  if (!current) {
+    return <h1>Loading</h1>;
+  }
+
+  const { contentDetails, description, title } = current[0];
 
   console.log("obj", title);
   console.log("current -->", current);

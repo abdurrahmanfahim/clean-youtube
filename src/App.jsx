@@ -7,13 +7,9 @@ import NotFound from "./pages/not-found";
 import HomePage from "./pages/home-page";
 import PlaylistItemPage from "./pages/playlist-items-page";
 import FavoritesPage from "./pages/favorites-page";
-import { CustomThemeProvider } from './contexts/ThemeContext';
-import { PlaylistProvider } from './contexts/PlaylistContext';
-import { usePlaylistContext } from './hooks/usePlaylistContext';
+import { CustomThemeProvider } from "./contexts/ThemeContext";
 
-function AppContent() {
-  const { playlists, getPlaylistById } = usePlaylistContext();
-  const playlistArray = Object.values(playlists);
+function App() {
   const navbarRef = useRef();
 
   const handleAddPlaylist = () => {
@@ -21,35 +17,23 @@ function AppContent() {
   };
 
   return (
-    <BrowserRouter>
-      <CssBaseline />
-      <Navbar ref={navbarRef} getPlaylistById={getPlaylistById} />
-      <Routes>
-        <Route path="/" element={<HomePage playlistArray={playlistArray} onAddPlaylist={handleAddPlaylist} />} />
-        <Route
-          path="/playlist/:playlistId"
-          element={<PlaylistItemPage playlists={playlists} />}
-        />
-        <Route
-          path="/player/:playlistId/:videoId"
-          element={<PlayerPage playlists={playlists} />}
-        />
-        <Route
-          path="/favorites"
-          element={<FavoritesPage />}
-        />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <CustomThemeProvider>
+      <BrowserRouter>
+        <CssBaseline />
+        <Navbar ref={navbarRef} />
+        <Routes>
+          <Route
+            path="/"
+            element={<HomePage onAddPlaylist={handleAddPlaylist} />}
+          />
+          <Route path="/playlist/:playlistId" element={<PlaylistItemPage />} />
+          <Route path="/player/:playlistId/:videoId" element={<PlayerPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </CustomThemeProvider>
   );
 }
-
-const App = () => (
-  <CustomThemeProvider>
-    <PlaylistProvider>
-      <AppContent />
-    </PlaylistProvider>
-  </CustomThemeProvider>
-);
 
 export default App;

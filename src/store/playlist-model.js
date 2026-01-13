@@ -1,12 +1,15 @@
-import { action, thunk, persist } from "easy-peasy";
+import { action, persist, thunk } from "easy-peasy";
 import getPlaylist from "../api/index";
 
 const playlistModel = persist({
   data: {},
   error: "",
   isLoading: false,
+  
   addPlaylist: action((state, payload) => {
-    state.data[payload.playlistId] = payload;
+    if (payload && payload.playlistId) {
+      state.data[payload.playlistId] = payload;
+    }
   }),
 
   setLoading: action((state, payload) => {
@@ -34,6 +37,10 @@ const playlistModel = persist({
       }
     }
   ),
+
+  removePlaylist: action((state, playlistId) => {
+    delete state.data[playlistId];
+  })
 });
 
 export default playlistModel;

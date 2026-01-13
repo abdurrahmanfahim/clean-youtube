@@ -9,9 +9,9 @@ import IconButton from "@mui/material/IconButton";
 import { PlayCircle } from "@mui/icons-material";
 import { Box, Button, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
-import { usePlaylistContext } from "../../hooks/usePlaylistContext";
 import { useTheme } from "../../hooks/useTheme";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useStoreActions, useStoreState } from "easy-peasy";
 
 const ListCardItem = ({
   thumbnail,
@@ -21,9 +21,23 @@ const ListCardItem = ({
   videoId,
   isPlaylist,
 }) => {
-  const { addToFavorites, removeFromFavorites, favorites, removePlaylist } =
-    usePlaylistContext();
   const { darkMode } = useTheme();
+
+  const { items } = useStoreState((state) => state.favorites);
+  const { addToFavorite, removeFromFavorite } = useStoreActions(
+    (actions) => actions.favorites
+  );
+  const { removePlaylist } = useStoreActions(
+    (actions) => actions.playlists
+  );
+
+  console.log(playlistId)
+
+  const handleDelete = (id) => {
+    removePlaylist(id)
+    removeFromFavorite(id)
+  }
+
   return (
     <Card
       sx={{
@@ -38,7 +52,7 @@ const ListCardItem = ({
         },
       }}
     >
-      <CardMedia component="img" image={thumbnail.url} alt={title} />
+      <CardMedia component="img" image={thumbnail?.url} alt={title} />
       <CardContent>
         <Typography
           variant="h6"
@@ -93,7 +107,7 @@ const ListCardItem = ({
             >
               <DeleteIcon
                 className="delete-icon"
-                onClick={() => removePlaylist(playlistId)}
+                onClick={() => handleDelete(playlistId)}
                 color="primary"
               />
             </IconButton>
@@ -101,16 +115,17 @@ const ListCardItem = ({
 
           {isPlaylist && (
             <IconButton aria-label="add to favorites">
-              {favorites.some((fav) => fav?.playlistId === playlistId) ? (
+              {items.includes(playlistId) ? (
                 <FavoriteIcon
-                  onClick={() => removeFromFavorites(playlistId)}
+                  onClick={() => removeFromFavorite(playlistId)}
+                  
                   color="error"
                 />
               ) : (
                 <FavoriteBorderIcon
                   onClick={() => {
-                    addToFavorites(playlistId);
                     console.log(playlistId);
+                    addToFavorite(playlistId);
                   }}
                 />
               )}
