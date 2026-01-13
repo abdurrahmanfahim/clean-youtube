@@ -14,9 +14,9 @@ const usePlaylist = () => {
   const [state, setState] = useState(INIT_STATE);
 
   useEffect(() => {
-    const state = storage.get(STORAGE_KEY);
-    if (state) {
-      setState({ ...state });
+    const savedState = storage.get(STORAGE_KEY);
+    if (savedState) {
+      setState({ ...savedState });
     }
   }, []);
 
@@ -56,15 +56,41 @@ const usePlaylist = () => {
   const addToFavorites = (playlistsId) => {
     setState((prev) => ({
       ...prev,
-      favorites: [prev, playlistsId],
+      favorites: prev.favorites.includes(playlistsId)
+        ? prev.favorites
+        : [...prev.favorites, playlistsId],
     }));
   };
 
-  const addToRecent = (playlistsId) => {
+  const removeFromFavorites = (playlistsId) => {
     setState((prev) => ({
       ...prev,
-      recentPlaylists: [prev, playlistsId],
+      favorites: prev.favorites.filter((item) => item !== playlistsId),
     }));
+  };
+
+  const removePlaylist = (playlistsId) => {
+    setState((prev) => {
+      const newPlaylists = { ...prev.playlists };
+      delete newPlaylists[playlistsId];
+      
+      return {
+        ...prev,
+        playlists: newPlaylists,
+        favorites: prev.favorites.filter((id) => id !== playlistsId),
+        recentPlaylists: prev.recentPlaylists.filter((id) => id !== playlistsId),
+      };
+    });
+  };
+
+  const addToRecent = (playlistsId) => {
+    setState((prev) => {
+      const filtered = prev.recentPlaylists.filter((id) => id !== playlistsId);
+      return {
+        ...prev,
+        recentPlaylists: [playlistsId, ...filtered].slice(0, 10), // Keep last 10
+      };
+    });
   };
 
   const getPlaylistByIds = (ids = []) => {
@@ -80,6 +106,8 @@ const usePlaylist = () => {
     getPlaylistById,
     addToRecent,
     addToFavorites,
+    removeFromFavorites,
+    removePlaylist,
   };
 };
 
