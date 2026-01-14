@@ -1,14 +1,16 @@
 import { action, persist, thunk } from "easy-peasy";
 import getPlaylist from "../api/index";
+import storage from '../utils/storage.js'   
 
 const playlistModel = persist({
-  data: {},
+  data: storage.get('cy__playlist') || {},
   error: "",
   isLoading: false,
   
   addPlaylist: action((state, payload) => {
     if (payload && payload.playlistId) {
       state.data[payload.playlistId] = payload;
+      storage.save('cy__playlist', state.data);
     }
   }),
 
@@ -40,6 +42,7 @@ const playlistModel = persist({
 
   removePlaylist: action((state, playlistId) => {
     delete state.data[playlistId];
+    storage.save('cy__playlist', state.data);
   })
 });
 
